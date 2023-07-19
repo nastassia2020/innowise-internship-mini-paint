@@ -1,0 +1,66 @@
+.drawings-list {
+  /* margin: 0 auto;
+  background: gray;
+  width: 100vw;
+  height: 100vh; */
+  position: absolute;
+  background: gray;
+  top: 50px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.drawing {
+  background: white;
+  width: 250px;
+  height: 150px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.drawings-list-btn {
+  background: orchid;
+  width: 90px;
+  height: 50px;
+  position: absolute;
+  top: 70px;
+  left: 10px;
+  bottom: 280px;
+  right: 1100px;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+@media screen and (max-width: 762px){
+  .drawings-list {
+    margin: 0 auto;
+    background: gray;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .drawings-list-btn {
+    background: orchid;
+    width: 60px;
+    height: 30px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    bottom: 370px;
+    right: 1100px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 8px;
+  }
+
+  .drawing {
+    background: white;
+    width: 200px;
+    height: 125px;
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+}

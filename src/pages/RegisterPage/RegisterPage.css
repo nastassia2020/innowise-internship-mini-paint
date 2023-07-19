@@ -1,0 +1,47 @@
+.auth {
+  width: 100%;
+  height: 100vh;
+}
+.auth_form {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: inherit;
+}
+.auth_form input {
+  height: 40px;
+  width: 400px;
+  margin: 0 auto;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+  margin: 20px 0 10px 0;
+  box-shadow: 0px 4px 24px -8px rgba(0, 0, 0, 0.75);
+  font-family: inherit;
+}
+.auth_btn {
+  width: 100px;
+  height: 30px;
+  margin: 15px 0;
+  outline: none;
+  background-color: orange;
+  font-family: inherit;
+  color: black;
+  border: none;
+}
+
+.auth_btn:hover {
+  background-color: black;
+  color: white;
+}
+.auth_btn:active {
+  background-color: orange;
+  color: black;
+}
+
+.auth_err {
+  color: red;
+  text-align: center;
+}

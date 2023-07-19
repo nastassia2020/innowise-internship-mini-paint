@@ -1,0 +1,14 @@
+.header {
+  flex: 1 0 10%;
+  padding-left: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5em;
+  height: 40px;
+}
+.header_exit {
+  width: 70px;
+  height: 25px;
+  color: darkgray;
+}

@@ -1,0 +1,96 @@
+.canvas-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  top: 280px;
+  left: 20px;
+  bottom: 300px;
+  right: 1000px;
+  width: 200px;
+  height: 250px;
+  align-items: flex-start;
+  color: white;
+}
+
+.image-btn {
+  background: orchid;
+  width: 110px;
+  height: 40px;
+  position: absolute;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+.save {
+  top: 550px;
+  left: 20px;
+  bottom: 0px;
+  right: 1100px;
+}
+
+.clear {
+  top: 110px;
+  left: 1300px;
+  bottom: 300px;
+  right: 20px;
+}
+
+.cancel {
+  top: 50px;
+  left: 1300px;
+  bottom: 300px;
+  right: 20px;
+}
+
+@media screen and (max-width: 762px){
+  .canvas-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 220px;
+    left: 10px;
+    bottom: 300px;
+    right: 1000px;
+    width: 200px;
+    height: 150px;
+    align-items: flex-start;
+    color: white;
+    font-size: 10px;
+  }
+
+  .image-btn {
+    background: orchid;
+    width: 60px;
+    height: 30px;
+    position: absolute;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 8px;
+  }
+
+  .save {
+    top: 380px;
+    left: 20px;
+    bottom: 0px;
+    right: 1100px;
+  }
+
+  .clear {
+    top: 110px;
+    left: 660px;
+    bottom: 300px;
+    right: 20px;
+  }
+
+  .cancel {
+    top: 50px;
+    left: 660px;
+    bottom: 300px;
+    right: 20px;
+  }
+
+}
