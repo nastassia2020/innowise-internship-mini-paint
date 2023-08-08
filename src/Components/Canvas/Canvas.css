@@ -17,13 +17,26 @@
   background: orchid;
   width: 110px;
   height: 40px;
-  position: absolute;
   border: none;
   cursor: pointer;
   color: white;
 }
 
-.save {
+.image-buttons{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 10px;
+  margin-left: 40px;
+}
+
+.canvas-wrapper{
+  display: flex;
+  flex-direction: row;
+  margin-left: 300px;
+}
+
+/* .save {
   top: 550px;
   left: 20px;
   bottom: 0px;
@@ -42,7 +55,7 @@
   left: 1300px;
   bottom: 300px;
   right: 20px;
-}
+} */
 
 @media screen and (max-width: 762px){
   .canvas-form {
@@ -65,7 +78,6 @@
     background: orchid;
     width: 60px;
     height: 30px;
-    position: absolute;
     border: none;
     cursor: pointer;
     color: white;

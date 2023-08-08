@@ -210,16 +210,25 @@ const Canvas = ({
 
   return (
     <>
-      <canvas ref={setCanvasRef} width={width} height={height} className={design} style={canvasStyle} />
-      <button className='image-btn save' type='button' onClick={handleSaveDrawing}>
-        SAVE IMAGE
-      </button>
-      <button className='image-btn clear' type='button' onClick={handleClearCanvas}>
-        Clear Canvas
-      </button>
-      <button className='image-btn cancel' type='button' onClick={() => handleUndo(canvasRef, strokes, undoneStrokes)}>
-        Cancel
-      </button>
+      <div className='canvas-wrapper'>
+        <canvas ref={setCanvasRef} width={width} height={height} className={design} style={canvasStyle} />
+        <div className='image-buttons'>
+          <button className='image-btn save' type='button' onClick={handleSaveDrawing}>
+            SAVE IMAGE
+          </button>
+          <button className='image-btn clear' type='button' onClick={handleClearCanvas}>
+            Clear Canvas
+          </button>
+          <button
+            className='image-btn cancel'
+            type='button'
+            onClick={() => handleUndo(canvasRef, strokes, undoneStrokes)}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+
       <form className='canvas-form'>
         <p>Choose drawing option:</p>
         <label>
