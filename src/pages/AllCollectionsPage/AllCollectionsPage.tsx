@@ -29,16 +29,12 @@ function AllCollectionsPage() {
     dispatch(getAllUsers())
   }, [dispatch])
 
-  console.log('usersFromDB******* ', usersFromDB)
-
   const usersCollections = usersFromDB.users.map(({ email }) => ({
     email,
     data: collections.collections
       .filter(({ uid }) => uid === usersFromDB.users.find((user) => user.email === email)?.uid)
       .map(({ drawingData }) => drawingData.dataURL),
   }))
-
-  console.log('usersCollections******* ', usersCollections)
 
   return (
     <div className='collection-list'>
@@ -58,25 +54,25 @@ function AllCollectionsPage() {
         ? usersCollections
             .filter((user) => user.email.includes(search))
             .map((user) => (
-              <div className='user-collection'>
-                <p className='drawing-collection-p' key={user.email}>
+              <div className='user-collection' key={user.data[0] + 'tt'}>
+                <p className='drawing-collection-p' key={user.data[0] + 'tt'}>
                   {user.email}
                 </p>
                 <div className='drawing-collection'>
                   {user.data.slice(-1).map((drawing) => (
-                    <img className='drawing' key={user.email} src={drawing} alt={`Drawing ${drawing}`} />
+                    <img className='drawing' key={user.data[1] + 'tt'} src={drawing} alt={`Drawing ${drawing}`} />
                   ))}
                 </div>
               </div>
             ))
         : usersCollections.map((user) => (
-            <div className='user-collection'>
-              <p className='drawing-collection-p' key={user.email}>
+            <div className='user-collection' key={user.data[0]}>
+              <p className='drawing-collection-p' key={user.data[0]}>
                 {user.email}
               </p>
               <div className='drawing-collection'>
                 {user.data.slice(-1).map((drawing) => (
-                  <img className='drawing' key={user.email} src={drawing} alt={`Drawing ${drawing}`} />
+                  <img className='drawing' key={user.data[1]} src={drawing} alt={`Drawing ${drawing}`} />
                 ))}
               </div>
             </div>

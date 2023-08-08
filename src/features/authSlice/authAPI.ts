@@ -7,7 +7,6 @@ import { auth } from '../../firebase'
 export function createUserFetch({ email, password }: { email: string; password: string }) {
   return async (): Promise<RegisterUserResponse> => {
     const response = await createUserWithEmailAndPassword(auth, email, password)
-    console.log(response)
     const user = response.user
     if (user) {
       return { uid: user.uid, email: user.email }

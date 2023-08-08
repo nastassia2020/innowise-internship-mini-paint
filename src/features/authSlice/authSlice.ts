@@ -41,7 +41,6 @@ export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async ({ email, password }: { email: string; password: string }) => {
     const response = await createUserFetch({ email, password })()
-    console.log(response)
     await saveUser(response.uid || '', response.email || '')
     return response
   },
