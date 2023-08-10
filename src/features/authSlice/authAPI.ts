@@ -9,7 +9,6 @@ export function createUserFetch({ email, password }: { email: string; password: 
     const response = await createUserWithEmailAndPassword(auth, email, password)
     const user = response.user
     if (user) {
-      localStorage.setItem('logged', 'logged')
       return { uid: user.uid, email: user.email }
     } else {
       throw new Error('User not created')
@@ -30,6 +29,5 @@ export function LoginFetch({ email, password }: { email: string; password: strin
 }
 
 export function LogOutFetch() {
-  localStorage.removeItem('logged')
   return async () => await signOut(auth)
 }
