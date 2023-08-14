@@ -132,28 +132,31 @@ const Canvas = ({
     [canvasRef, drawingMode, isDrawing, lineWidth, startPos.x, startPos.y, strokeStyle, strokes],
   )
 
-  const handleCanvasMouseDown = useCallback((event: MouseEvent) => {
-    setStartPos({ x: event.offsetX, y: event.offsetY })
-    setIsDrawing(true)
+  const handleCanvasMouseDown = useCallback(
+    (event: MouseEvent) => {
+      setStartPos({ x: event.offsetX, y: event.offsetY })
+      setIsDrawing(true)
 
-    if (drawingMode === 'line' || drawingMode === 'brush') {
-      const canvas = canvasRef
-      if (!canvas) {
-        return
-      }
+      if (drawingMode === 'line' || drawingMode === 'brush') {
+        const canvas = canvasRef
+        if (!canvas) {
+          return
+        }
 
-      const context = canvas.getContext('2d')
-      if (!context) {
-        return
+        const context = canvas.getContext('2d')
+        if (!context) {
+          return
+        }
+        const x = event.offsetX
+        const y = event.offsetY
+        context.fillStyle = strokeStyle
+        context.beginPath()
+        context.arc(x, y, lineWidth, 0, 2 * Math.PI)
+        context.fill()
       }
-      const x = event.offsetX
-      const y = event.offsetY
-      context.fillStyle = strokeStyle
-      context.beginPath()
-      context.arc(x, y, lineWidth, 0, 2 * Math.PI)
-      context.fill()
-    }
-  }, [])
+    },
+    [lineWidth, strokeStyle],
+  )
 
   const handleCanvasMouseUp = useCallback(
     (event: MouseEvent) => {
