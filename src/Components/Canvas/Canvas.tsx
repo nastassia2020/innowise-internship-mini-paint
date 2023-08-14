@@ -29,8 +29,6 @@ const Canvas = ({
   const [canvasRef, setCanvasRef] = useState<HTMLCanvasElement | null>(null)
   const [strokes, setStrokes] = useState<ImageData[]>([])
 
-  // const strokes: ImageData[] = useMemo(() => [], [])
-
   useEffect(() => {
     clearStrokes()
   }, [])
@@ -51,10 +49,13 @@ const Canvas = ({
         return
       }
 
+      context.lineJoin = 'round'
+      context.lineCap = 'round'
+
       const x = event.offsetX
       const y = event.offsetY
 
-      if (drawingMode === 'line') {
+      if (drawingMode === 'line' || drawingMode === 'brush') {
         context.strokeStyle = strokeStyle
         context.lineWidth = lineWidth
         context.beginPath()
@@ -62,14 +63,71 @@ const Canvas = ({
         context.lineTo(x, y)
         context.stroke()
         setStartPos({ x, y })
-      } else if (drawingMode === 'brush') {
-        context.fillStyle = strokeStyle
-        context.fillRect(x - 5, y - 5, lineWidth, lineWidth)
-        context.fill()
       }
 
-      const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
-      strokes.push(imageData)
+      if (
+        drawingMode === 'straight line' ||
+        drawingMode === 'circle' ||
+        drawingMode === 'rectangle' ||
+        drawingMode === 'triangle'
+      ) {
+        context.clearRect(0, 0, canvas.width, canvas.height)
+
+        for (const stroke of strokes) {
+          context.putImageData(stroke, 0, 0)
+        }
+
+        if (drawingMode === 'straight line') {
+          context.strokeStyle = strokeStyle
+          context.lineWidth = lineWidth
+          context.beginPath()
+          context.moveTo(startPos.x, startPos.y)
+          context.lineTo(x, y)
+          context.stroke()
+
+          if (!isDrawing) {
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+            strokes.push(imageData)
+          }
+        } else if (drawingMode === 'circle') {
+          const r = Math.sqrt(Math.pow(startPos.x - x, 2) + Math.pow(startPos.y - y, 2))
+          context.beginPath()
+          context.arc(startPos.x, startPos.y, r, 0, 2 * Math.PI, false)
+          context.strokeStyle = strokeStyle
+          context.lineWidth = lineWidth
+          context.stroke()
+
+          if (!isDrawing) {
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+            strokes.push(imageData)
+          }
+        } else if (drawingMode === 'rectangle') {
+          const width = Math.abs(x - startPos.x)
+          const height = Math.abs(y - startPos.y)
+          context.strokeStyle = strokeStyle
+          context.lineWidth = lineWidth
+          context.strokeRect(startPos.x, startPos.y, width, height)
+
+          if (!isDrawing) {
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+            strokes.push(imageData)
+          }
+        } else if (drawingMode === 'triangle') {
+          context.beginPath()
+          context.moveTo((startPos.x + x) / 2, startPos.y)
+          context.lineTo(x, y)
+          context.lineTo(startPos.x, y)
+          context.closePath()
+          context.strokeStyle = strokeStyle
+          context.lineWidth = lineWidth
+          context.stroke()
+
+          if (!isDrawing) {
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+            strokes.push(imageData)
+          }
+        }
+      }
     },
     [canvasRef, drawingMode, isDrawing, lineWidth, startPos.x, startPos.y, strokeStyle, strokes],
   )
@@ -77,14 +135,30 @@ const Canvas = ({
   const handleCanvasMouseDown = useCallback((event: MouseEvent) => {
     setStartPos({ x: event.offsetX, y: event.offsetY })
     setIsDrawing(true)
+
+    if (drawingMode === 'line' || drawingMode === 'brush') {
+      const canvas = canvasRef
+      if (!canvas) {
+        return
+      }
+
+      const context = canvas.getContext('2d')
+      if (!context) {
+        return
+      }
+      const x = event.offsetX
+      const y = event.offsetY
+      context.fillStyle = strokeStyle
+      context.beginPath()
+      context.arc(x, y, lineWidth, 0, 2 * Math.PI)
+      context.fill()
+    }
   }, [])
 
   const handleCanvasMouseUp = useCallback(
     (event: MouseEvent) => {
       setIsDrawing(false)
       const canvas = canvasRef
-      const x = event.offsetX
-      const y = event.offsetY
       if (!canvas) {
         return
       }
@@ -94,43 +168,10 @@ const Canvas = ({
         return
       }
 
-      if (drawingMode === 'straight line') {
-        context.strokeStyle = strokeStyle
-        context.lineWidth = lineWidth
-        context.beginPath()
-        context.moveTo(startPos.x, startPos.y)
-        context.lineTo(x, y)
-        context.stroke()
-        setStartPos({ x, y })
-      } else if (drawingMode === 'circle') {
-        const r = Math.sqrt(Math.pow(startPos.x - event.offsetX, 2) + Math.pow(startPos.y - event.offsetY, 2))
-        context.beginPath()
-        context.arc(startPos.x, startPos.y, r, 0, 2 * Math.PI, false)
-        context.strokeStyle = strokeStyle
-        context.lineWidth = lineWidth
-        context.stroke()
-      } else if (drawingMode === 'rectangle') {
-        const x = Math.min(event.offsetX, startPos.x)
-        const y = Math.min(event.offsetY, startPos.y)
-        const width = Math.abs(event.offsetX - startPos.x)
-        const height = Math.abs(event.offsetY - startPos.y)
-        context.strokeStyle = strokeStyle
-        context.lineWidth = lineWidth
-        context.strokeRect(x, y, width, height)
-      } else if (drawingMode === 'triangle') {
-        context.beginPath()
-        context.moveTo((startPos.x + event.offsetX) / 2, startPos.y)
-        context.lineTo(event.offsetX, event.offsetY)
-        context.lineTo(startPos.x, event.offsetY)
-        context.closePath()
-        context.strokeStyle = strokeStyle
-        context.lineWidth = lineWidth
-        context.stroke()
-      }
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
       strokes.push(imageData)
     },
-    [canvasRef, drawingMode, setIsDrawing, startPos.x, startPos.y, lineWidth, strokeStyle, strokes],
+    [canvasRef, setIsDrawing, strokes],
   )
 
   useEffect(() => {
@@ -161,7 +202,6 @@ const Canvas = ({
       if (drawingId) {
         alert('Drawing saved')
       }
-      console.log(`Drawing saved with ID ${drawingId}`)
     }
   }
 
@@ -186,9 +226,6 @@ const Canvas = ({
         context.putImageData(stroke, 0, 0)
       })
     }
-
-    console.log('lastStroke*****', strokes)
-    console.log('canvasRef*****', canvasRef)
   }
 
   const handleClearCanvas = () => {
