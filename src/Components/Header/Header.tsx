@@ -6,7 +6,8 @@ import { logoutHandler } from '../../features/authSlice/authSlice'
 import './Header.css'
 
 const Header = () => {
-  const { isAuth } = useAppSelector((state) => state.auth)
+  //const { isAuth } = useAppSelector((state) => state.auth)
+  const isAuth = !!localStorage.getItem('Auth email')
   const dispatch = useAppDispatch()
 
   const authHandler = () => {

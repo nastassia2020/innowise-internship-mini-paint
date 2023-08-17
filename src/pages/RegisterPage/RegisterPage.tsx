@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
-import { registerUser } from '../../features/authSlice/authSlice'
+import { registerUser, loginHandler } from '../../features/authSlice/authSlice'
 import './RegisterPage.css'
 
 interface Props {}
@@ -24,7 +24,7 @@ const RegisterPage: React.FC<Props> = () => {
 
   useEffect(() => {
     if (firstEnter === false) {
-      navigate('/login')
+      navigate('/')
     }
   }, [firstEnter, navigate])
 
@@ -34,7 +34,8 @@ const RegisterPage: React.FC<Props> = () => {
       console.log('isError', isError)
     } else {
       dispatch(registerUser(userData))
-      navigate('/login')
+      dispatch(loginHandler(userData))
+      navigate('/')
     }
   }
 
