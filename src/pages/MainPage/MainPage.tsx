@@ -19,8 +19,6 @@ const MainPage = () => {
     }
     handleResize()
     window.addEventListener('resize', handleResize)
-    console.log('width', canvasWidth)
-    console.log('height', canvasHeight)
 
     return () => {
       window.removeEventListener('resize', handleResize)

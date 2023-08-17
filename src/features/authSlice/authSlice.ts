@@ -42,7 +42,7 @@ export const registerUser = createAsyncThunk(
   async ({ email, password }: { email: string; password: string }) => {
     const response = await createUserFetch({ email, password })()
     await saveUser(response.uid || '', response.email || '')
-    localStorage.setItem('Auth email', response.email || '')
+    localStorage.setItem('Auth uid', response.uid || '')
     return response
   },
 )
@@ -52,7 +52,7 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }: { email: string; password: string }) => {
     try {
       const response = await LoginFetch({ email, password })()
-      // localStorage.setItem('Auth uid', response.uid || '')
+      localStorage.setItem('Auth uid', response.uid || '')
       return response
     } catch (error) {
       toast.error("user doesn't exist")
@@ -71,10 +71,11 @@ export const authSlice = createSlice({
   reducers: {
     loginHandler: (state, action: PayloadAction<RegisterUserArgs | RegisterUserResponse>) => {
       state.user = action.payload
+      localStorage.setItem('Auth', 'user registered')
       state.isAuth = true
     },
     loginCheckStatusHandler: (state) => {
-      const uid = localStorage.getItem('Auth email') || null
+      const uid = localStorage.getItem('Auth') || null
       if (uid) {
         state.isAuth = true
       } else state.isAuth = false
@@ -82,7 +83,8 @@ export const authSlice = createSlice({
     logoutHandler: (state) => {
       state.user = null
       state.isAuth = false
-      localStorage.removeItem('Auth email')
+      localStorage.removeItem('Auth')
+      localStorage.removeItem('Auth uid')
     },
     firstLoadHandler: (state, action: PayloadAction<boolean>) => {
       state.firstEnter = action.payload

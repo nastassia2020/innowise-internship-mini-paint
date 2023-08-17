@@ -5,17 +5,16 @@ import { useAppSelector } from '../app/hooks'
 
 const ProtectedRoute = () => {
   const { isError } = useAppSelector((state) => state.auth)
-  const isAuth = !!localStorage.getItem('Auth email')
+  const isAuth = !!localStorage.getItem('Auth')
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (isAuth && !isError) {
-      navigate('/')
+    if (!isAuth || isError) {
+      navigate('/register')
     }
-    console.log('isAuth', isAuth)
   }, [isAuth, isError, navigate])
 
-  return isAuth && !isError ? <Outlet /> : <Navigate to='/register' />
+  return <>{isAuth && !isError ? <Outlet /> : <Navigate replace to='/register' />}</>
 }
 
 export default ProtectedRoute
