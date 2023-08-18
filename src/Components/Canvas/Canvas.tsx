@@ -151,7 +151,7 @@ const Canvas = ({
         const y = event.offsetY
         context.fillStyle = strokeStyle
         context.beginPath()
-        context.arc(x, y, lineWidth, 0, 2 * Math.PI)
+        context.arc(x, y, lineWidth / 2, 0, 2 * Math.PI)
         context.fill()
       }
     },
